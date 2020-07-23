@@ -28,10 +28,16 @@
 
         .parkTooltip {
             color: white;
-            background: #4e8055; /* #2e4e15; /* #5B9729; */
+            background: #4e8055; /* #4e8055 */
             border: 0;
             font-size: 1.3em;
-           /* color: #9fd176; */
+        }
+
+        .trailTooltip {
+            color: white;
+            background: #af510a;  /* #4e8055 */
+            border: 0;
+            font-size: 1.3em;
         }
     </style>
 </head>
@@ -77,14 +83,15 @@
         };
 
         const trailOptions = {
-            color: "pink",
-            weight: 5,
+            color: "#ff6e00",
+            weight: 2,
+            opacity: .7,
         };
 
         $.when(
             $.getJSON("data/parks.json"),
             $.getJSON("data/neighborhoods.json"),
-            $.getJSON("data/trail.json")
+            $.getJSON("data/trails.json")
         ).done(function (parksData, neighborhoodsData, trailData) {
             console.log(parksData)
             console.log(neighborhoodsData)
@@ -140,16 +147,16 @@
                 style: trailOptions,
                 onEachFeature: function (feature, layer) {
                     // shortcut to variable
-                    let tooltip = feature.properties.PATHTYPE;
+                    let tooltip = `Elizabeth River Trail`
                     // bind the tooltip to the layer
                     layer.bindTooltip(tooltip, {
                         sticky: true,
-                        className: "tooltip",
+                        className: "trailTooltip",
                     });
                     // visual affordance on mouseover
                     layer.on("mouseover", function (e) {
                         this.setStyle({
-                            fillOpacity: 0.1,
+                            fillOpacity: 1,
                         });
                     });
                     // use existing option to reset the styles on mouseout
