@@ -28,7 +28,7 @@
 
         .parkTooltip {
             color: white;
-            background: #5B9729;
+            background: #2e4e15; /* #5B9729; */
             border: 0;
             font-size: 1.3em;
         }
@@ -60,17 +60,19 @@
         ).addTo(map);
 
         const parkOptions = {
-            color: "yellow", // "#ff6e00",
-            weight: 0,
-            opacity: 1,
+            fillOpacity: .5,
+            fillColor: "#497921",
+            color: "#3A611A", // "#ff6e00",
+            weight: 1.7,
+            opacity: .6,
         };
 
         const neighborhoodOptions = {
             fillOpacity: 0.3,
             fillColor: "#e0ecf9",
             color: "#151f2b",
-            weight: 1.7,
-            opacity: 1,
+            weight: 0,
+            opacity: .6,
         };
 
         const trailOptions = {
@@ -100,7 +102,7 @@
                     // visual affordance on mouseover
                     layer.on("mouseover", function (e) {
                         this.setStyle({
-                            fillOpacity: 0.1,
+                            fillOpacity: .5,
                         });
                     });
                     // use existing option to reset the styles on mouseout
@@ -123,7 +125,7 @@
                     // visual affordance on mouseover
                     layer.on("mouseover", function (e) {
                         this.setStyle({
-                            fillOpacity: 0.4,
+                            fillOpacity: 10,
                         });
                     });
                     // use existing option to reset the styles on mouseout
