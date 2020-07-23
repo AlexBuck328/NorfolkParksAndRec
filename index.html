@@ -5,16 +5,163 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>HTML5 Template</title>
-
+    <title>Norfolk Parks and Recreation</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
     <style>
-        /* CSS rules here */
+        body,
+        #map {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            margin: 0;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .tooltip {
+            color: white;
+            background: #295b97;
+            border: 0;
+            font-size: 1.3em;
+        }
+
+        .parkTooltip {
+            color: white;
+            background: #5B9729;
+            border: 0;
+            font-size: 1.3em;
+        }
     </style>
 </head>
 
 <body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script>
-        // JavaScript goes here
+        const options = {
+            center: [36.8888, -76.2739],
+            zoom: 12,
+            minZoom: 12,
+            maxZoom: 16,
+
+        };
+        const map = L.map("map", options);
+
+        L.tileLayer(
+            "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href = "http://cartodb.com/attributions" > CartoDB < /a>',
+                subdomains: "abcd",
+                maxZoom: 19,
+            }
+        ).addTo(map);
+
+        const parkOptions = {
+            color: "yellow", // "#ff6e00",
+            weight: 0,
+            opacity: 1,
+        };
+
+        const neighborhoodOptions = {
+            fillOpacity: 0.3,
+            fillColor: "#e0ecf9",
+            color: "#151f2b",
+            weight: 1.7,
+            opacity: 1,
+        };
+
+        const trailOptions = {
+            color: "pink",
+            weight: 5,
+        };
+
+        $.when(
+            $.getJSON("data/parks.json"),
+            $.getJSON("data/neighborhoods.json"),
+            $.getJSON("data/trail.json")
+        ).done(function (parksData, neighborhoodsData, trailData) {
+            console.log(parksData)
+            console.log(neighborhoodsData)
+            console.log(trailData)
+
+            L.geoJson(neighborhoodsData, {
+                style: neighborhoodOptions,
+                onEachFeature: function (feature, layer) {
+                    // shortcut to variable
+                    let tooltip = feature.properties.LEAGUE;
+                    // bind the tooltip to the layer
+                    layer.bindTooltip(tooltip, {
+                        sticky: true,
+                        className: "tooltip",
+                    });
+                    // visual affordance on mouseover
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({
+                            fillOpacity: 0.1,
+                        });
+                    });
+                    // use existing option to reset the styles on mouseout
+                    layer.on("mouseout", function (e) {
+                        this.setStyle(neighborhoodOptions);
+                    });
+                }
+            }).addTo(map);
+
+            L.geoJson(parksData, {
+                style: parkOptions,
+                onEachFeature: function (feature, layer) {
+                    // shortcut to variable
+                    let tooltip = feature.properties.PARK_NAME;
+                    // bind the tooltip to the layer
+                    layer.bindTooltip(tooltip, {
+                        sticky: true,
+                        className: "parkTooltip",
+                    });
+                    // visual affordance on mouseover
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({
+                            fillOpacity: 0.4,
+                        });
+                    });
+                    // use existing option to reset the styles on mouseout
+                    layer.on("mouseout", function (e) {
+                        this.setStyle(parkOptions);
+                    });
+                }
+            }).addTo(map);
+
+            L.geoJson(trailData, {
+                style: trailOptions,
+                onEachFeature: function (feature, layer) {
+                    // shortcut to variable
+                    let tooltip = feature.properties.PATHTYPE;
+                    // bind the tooltip to the layer
+                    layer.bindTooltip(tooltip, {
+                        sticky: true,
+                        className: "tooltip",
+                    });
+                    // visual affordance on mouseover
+                    layer.on("mouseover", function (e) {
+                        this.setStyle({
+                            fillOpacity: 0.1,
+                        });
+                    });
+                    // use existing option to reset the styles on mouseout
+                    layer.on("mouseout", function (e) {
+                        this.setStyle(trailOptions);
+                    });
+                }
+            }).addTo(map);
+        });
+
+        function drawMap(parksData, neighborhoodsData, trailData) {
+            L.geoJson(parksData).addTo(map);
+            L.geoJson(neighborhoodsData).addTo(map);
+            L.geoJson(trailData).addTo(map);
+        }
     </script>
 </body>
 
