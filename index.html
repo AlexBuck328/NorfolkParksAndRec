@@ -28,9 +28,10 @@
 
         .parkTooltip {
             color: white;
-            background: #ff9837; /* #2e4e15; /* #5B9729; */
+            background: #4e8055; /* #2e4e15; /* #5B9729; */
             border: 0;
             font-size: 1.3em;
+           /* color: #9fd176; */
         }
     </style>
 </head>
@@ -61,14 +62,14 @@
 
         const parkOptions = {
             fillOpacity: .5,
-            fillColor: "#497921",
+            fillColor: "#9fd176", // "#80ac5d",
             color: "#3A611A", // "#ff6e00",
             weight: 1.7,
             opacity: .6,
         };
 
         const neighborhoodOptions = {
-            fillOpacity: 0.3,
+            fillOpacity: 0.2,
             fillColor: "#e0ecf9",
             color: "#151f2b",
             weight: 0,
@@ -102,7 +103,7 @@
                     // visual affordance on mouseover
                     layer.on("mouseover", function (e) {
                         this.setStyle({
-                            fillOpacity: .5,
+                            fillOpacity: .4,
                         });
                     });
                     // use existing option to reset the styles on mouseout
@@ -125,7 +126,7 @@
                     // visual affordance on mouseover
                     layer.on("mouseover", function (e) {
                         this.setStyle({
-                            fillOpacity: 10,
+                            fillOpacity: .9,
                         });
                     });
                     // use existing option to reset the styles on mouseout
