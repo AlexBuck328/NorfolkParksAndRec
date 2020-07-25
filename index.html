@@ -62,13 +62,13 @@
         };
         const map = L.map("map", options);
 
-            L.tileLayer(
-         'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    subdomains: "abcd",
-                    maxZoom: 19,
-                }
-            ).addTo(map);
+        L.tileLayer(
+            'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: "abcd",
+                maxZoom: 19,
+            }
+        ).addTo(map);
 
         const parkOptions = {
             fillOpacity: .5,
@@ -95,7 +95,7 @@
         $.when(
             $.getJSON("data/parks.json"),
             $.getJSON("data/neighborhoods.json"),
-            $.getJSON("data/trails.json")
+            $.getJSON("data/trail.json")
         ).done(function (parksData, neighborhoodsData, trailData) {
             console.log(parksData)
             console.log(neighborhoodsData)
