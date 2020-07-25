@@ -24,25 +24,29 @@
             background: #295b97;
             border: 0;
             font-size: 1.3em;
+            z-index: 700;
         }
 
         .parkTooltip {
             color: white;
-            background: #4e8055; /* #4e8055 */
+            background: #4e8055;
             border: 0;
             font-size: 1.3em;
+            z-index: 700;
         }
 
         .trailTooltip {
             color: white;
-            background: #af510a;  /* #4e8055 */
+            background: #af510a;
             border: 0;
             font-size: 1.3em;
+            z-index: 700;
         }
     </style>
 </head>
 
 <body>
+
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
@@ -58,13 +62,13 @@
         };
         const map = L.map("map", options);
 
-        L.tileLayer(
-            "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png", {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href = "http://cartodb.com/attributions" > CartoDB < /a>',
-                subdomains: "abcd",
-                maxZoom: 19,
-            }
-        ).addTo(map);
+            L.tileLayer(
+         'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    subdomains: "abcd",
+                    maxZoom: 19,
+                }
+            ).addTo(map);
 
         const parkOptions = {
             fillOpacity: .5,
@@ -167,11 +171,16 @@
             }).addTo(map);
         });
 
-        function drawMap(parksData, neighborhoodsData, trailData) {
-            L.geoJson(parksData).addTo(map);
-            L.geoJson(neighborhoodsData).addTo(map);
-            L.geoJson(trailData).addTo(map);
-        }
+        map.createPane("labels");
+        map.getPane("labels").style.zIndex = 550;
+        map.getPane("labels").style.pointerEvents = "none";
+
+        L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/rastertiles/dark_only_labels/{z}/{x}/{y}.png", {
+                attribution: "©OpenStreetMap, ©CartoDB",
+                pane: "labels",
+            }
+        ).addTo(map);
     </script>
 </body>
 
